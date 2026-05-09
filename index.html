@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexora Sales OS CRM</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Nexora Sales OS</h1>
+    <div class="topbar-actions">
+      <button id="openSettingsBtn" class="secondary">Settings</button>
+      <button id="runStressTestBtn" class="secondary">Run UI Self-Test</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+      <button class="tab-btn" data-tab="leads">Leads</button>
+      <button class="tab-btn" data-tab="contacts">Contacts</button>
+      <button class="tab-btn" data-tab="deals">Deals</button>
+      <button class="tab-btn" data-tab="documents">Documents</button>
+      <button class="tab-btn" data-tab="commands">Commands</button>
+    </aside>
+
+    <section class="content">
+      <article id="dashboard" class="tab-panel active">
+        <h2>Dashboard</h2>
+        <div class="stats-grid">
+          <div class="card"><p>Leads</p><strong id="leadCount">0</strong></div>
+          <div class="card"><p>Contacts</p><strong id="contactCount">0</strong></div>
+          <div class="card"><p>Deals</p><strong id="dealCount">0</strong></div>
+          <div class="card"><p>Pipeline Value</p><strong id="pipelineValue">$0</strong></div>
+        </div>
+      </article>
+
+      <article id="leads" class="tab-panel">
+        <h2>Leads</h2>
+        <form id="leadForm" class="grid-form">
+          <input name="name" placeholder="Name" required />
+          <input name="email" type="email" placeholder="Email" required />
+          <input name="company" placeholder="Company" required />
+          <select name="status" required>
+            <option value="new">New</option>
+            <option value="qualified">Qualified</option>
+            <option value="lost">Lost</option>
+          </select>
+          <button type="submit">Add Lead</button>
+        </form>
+        <div class="toolbar">
+          <button id="deleteSelectedLeadsBtn" class="danger">Delete Selected</button>
+          <button id="exportLeadsBtn">Export CSV</button>
+          <label class="upload-label">Import CSV <input id="importLeadsInput" type="file" accept=".csv" /></label>
+        </div>
+        <table><thead><tr><th><input type="checkbox" id="selectAllLeads"></th><th>Name</th><th>Email</th><th>Company</th><th>Status</th></tr></thead><tbody id="leadsTable"></tbody></table>
+      </article>
+
+      <article id="contacts" class="tab-panel">
+        <h2>Contacts</h2>
+        <form id="contactForm" class="grid-form">
+          <input name="name" placeholder="Name" required />
+          <input name="email" type="email" placeholder="Email" required />
+          <input name="phone" placeholder="Phone" required />
+          <button type="submit">Add Contact</button>
+        </form>
+        <ul id="contactsList" class="list"></ul>
+      </article>
+
+      <article id="deals" class="tab-panel">
+        <h2>Deals</h2>
+        <form id="dealForm" class="grid-form">
+          <input name="title" placeholder="Deal title" required />
+          <input name="amount" type="number" min="0" step="0.01" placeholder="Amount" required />
+          <select name="stage" required>
+            <option value="prospecting">Prospecting</option>
+            <option value="proposal">Proposal</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+          <button type="submit">Add Deal</button>
+        </form>
+        <div class="toolbar">
+          <button id="batchWonBtn">Mark Selected Won</button>
+          <button id="batchLostBtn" class="danger">Mark Selected Lost</button>
+        </div>
+        <table><thead><tr><th><input type="checkbox" id="selectAllDeals"></th><th>Title</th><th>Amount</th><th>Stage</th></tr></thead><tbody id="dealsTable"></tbody></table>
+      </article>
+
+      <article id="documents" class="tab-panel">
+        <h2>Document Generator</h2>
+        <form id="docForm" class="grid-form">
+          <input name="client" placeholder="Client Name" required />
+          <input name="rep" placeholder="Sales Rep" required />
+          <input name="value" type="number" min="0" step="0.01" placeholder="Deal Value" required />
+          <button type="submit">Generate Proposal</button>
+        </form>
+        <textarea id="docOutput" rows="12" readonly placeholder="Generated document appears here..."></textarea>
+      </article>
+
+      <article id="commands" class="tab-panel">
+        <h2>Command Palette</h2>
+        <form id="commandForm" class="command-form">
+          <input id="commandInput" placeholder="Try: /seed, /clear, /export all, /help" required />
+          <button type="submit">Run</button>
+        </form>
+        <pre id="commandOutput" class="console"></pre>
+      </article>
+    </section>
+  </main>
+
+  <dialog id="settingsModal">
+    <form id="settingsForm" method="dialog">
+      <h3>Settings</h3>
+      <label>Currency Symbol <input name="currency" maxlength="3" value="$" required></label>
+      <label>Auto-save Interval (seconds) <input type="number" min="5" name="autosave" value="15" required></label>
+      <menu>
+        <button type="button" id="cancelSettingsBtn" class="secondary">Cancel</button>
+        <button type="submit">Save</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
